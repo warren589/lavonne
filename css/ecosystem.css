@@ -196,7 +196,8 @@
   gap: 24px;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity var(--eco-fade) ease, transform var(--eco-fade) ease;
+  /* Outgoing copy clears quickly so it never overlaps the incoming copy. */
+  transition: opacity 200ms ease, transform 200ms ease;
   pointer-events: none;
 }
 
@@ -204,6 +205,7 @@
   opacity: 1;
   transform: none;
   pointer-events: auto;
+  transition: opacity var(--eco-fade) ease 200ms, transform var(--eco-fade) ease 200ms;
 }
 
 .eco__heading-group {

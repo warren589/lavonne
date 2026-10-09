@@ -3,7 +3,7 @@
 Mobile build of the Figma frame **"Numbers on the left (same interaction as current site)"**
 (`Lavonne-Website-Int`, node `4507:1713`, in the *Lavonne Ecosystem Mobile versions* section).
 
-Open `index.html` on a phone, or in a browser's device mode at about 402 × 728, and scroll.
+Open `index.html` on a phone, or in a browser's device mode at about 402 × 728, and scroll. To show it to others, use `preview.html`: it runs the section at true size inside an iPhone 16 Pro frame. Serve the folder over HTTP (for example `npx serve .`), because the Back to the start and Play it through buttons don't work when the file is opened directly from disk.
 
 ## Interaction
 
