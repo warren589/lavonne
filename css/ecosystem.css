@@ -16,6 +16,7 @@
 :root {
   --eco-bg: #000;
   --eco-text: #fff;
+  --eco-text-body: rgb(255 255 255 / 0.8);
   --eco-eyebrow: #e2c0a1;
   --eco-muted: #8a7b75;
 
@@ -220,7 +221,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.1;
-  color: var(--eco-text);
+  color: var(--eco-text-body);
 }
 
 /* --------------------------------------------------------------------------
