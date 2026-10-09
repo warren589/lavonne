@@ -5,7 +5,7 @@ Mobile build of the Figma frame **"regular scroll"**
 
 This branch is an alternative to the pinned, stepped version on `claude/charming-mayer-76ac90`. Here the five ecosystem items sit one after another and the page scrolls normally. Each item is a full-width image (402 × 453) followed by its number, rule and copy.
 
-Open `index.html` on a phone, or in a browser's device mode at about 402 × 728, and scroll. Serve the folder over HTTP (for example `python3 -m http.server`) so the web fonts load.
+Open `index.html` on a phone, or in a browser's device mode at about 402 × 728, and scroll. To show it to others, use `preview.html`: it runs the section at true size inside an iPhone 16 Pro frame. With Safari's toolbars, the page area is 402 × 728, the same as the Figma frame. Use *Back to the start* to replay the reveals and *Play it through* for a hands-free scroll. Serve the folder over HTTP (for example `python3 -m http.server`), because the buttons don't work when the file is opened directly from disk.
 
 ## Motion
 
@@ -23,6 +23,7 @@ Open `index.html` on a phone, or in a browser's device mode at about 402 × 728,
 | Path | What |
 | --- | --- |
 | `index.html` | The section markup, with spacer blocks above and below so you can test the scroll |
+| `preview.html` | Phone-frame preview that runs `index.html` live, with notes for reviewers |
 | `css/ecosystem.css` | Styles, design tokens and reveal states |
 | `js/ecosystem.js` | Zoom, rule and reveal. It needs no dependencies and starts up on any `[data-ecosystem]` element |
 | `assets/images/` | Images |
@@ -53,11 +54,10 @@ The copy comes from the "Lavonne ecosystem" section on the live site: Facility, 
 
 ## Still needed
 
-1. **Brand fonts.** Passenger Sans and Rhymes Display are licensed, so they aren't in the repo. Add them as:
-   - `assets/fonts/PassengerSans-Regular.woff2`
-   - `assets/fonts/RhymesDisplay-Regular.woff2`
-   - `assets/fonts/RhymesDisplay-Italic.woff2`
+1. **Brand fonts.** These load from the Adobe Fonts kit `https://use.typekit.net/rtp1ffx.css`, which is linked in `index.html` and `preview.html`. Two things to check:
+   - The kit only serves fonts to the domains listed in its Adobe Fonts project settings. Add the domain you preview on, and `localhost` for local testing.
+   - The kit's CSS couldn't be read from the build environment, so the family names are a best guess. The stacks in `css/ecosystem.css` (`--eco-font-sans`, `--eco-font-display`) try `passenger-sans`, then `rhymes-display` and `rhymes`. If the kit uses other names, put them at the front of those stacks. The kit's "Web project" page in Adobe Fonts lists the exact names.
 
-   Until those files are there, the page falls back to Helvetica/Arial and Georgia.
+   Inter, which the numbers use, is still served locally from `assets/fonts/`.
 2. **Syllabus body copy.** The headline, "A syllabus that keeps moving.", matches the live site. The body line was pieced together from search results because the live site couldn't be reached from the build environment. Check it against the site; search `TODO` in `index.html`.
 3. **Image resolution.** `facility.jpg` and `classroom.jpg` are 1× exports (402 × 453) from Figma. Replace them with the original photos so they look sharp on retina screens, especially while zoomed.
