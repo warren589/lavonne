@@ -21,6 +21,8 @@
   --eco-text: #fff;
   --eco-eyebrow: #e2c0a1;
   --eco-muted: #8a7b75;
+  /* Body copy sits slightly back from the titles. */
+  --eco-body: rgb(255 255 255 / 0.75);
 
   --eco-font-sans: "passenger-sans", "Passenger Sans", "Helvetica Neue", Arial, sans-serif;
   --eco-font-display: "rhymes-display", "rhymes", "Rhymes Display", Georgia, "Times New Roman", serif;
@@ -169,7 +171,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.1;
-  color: var(--eco-text);
+  color: var(--eco-body);
 }
 
 /* --------------------------------------------------------------------------
