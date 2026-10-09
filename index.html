@@ -1,136 +1,469 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>The Lavonne ecosystem — mobile (regular scroll)</title>
-    <link rel="stylesheet" href="https://use.typekit.net/rtp1ffx.css" />
-    <link rel="preload" href="assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/ecosystem.css" />
-    <style>
-      /* Demo page only — stands in for the sections around the ecosystem block. */
-      html,
-      body {
-        margin: 0;
-        background: #000;
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<style>body { margin: 0; }</style>
+<title>Lavonne Ecosystem Mobile</title>
+<link rel="stylesheet" href="https://use.typekit.net/rtp1ffx.css" />
+<style>
+  /* Layout: a real-size phone on the left running the live section, short reviewer notes on the right; stacks on narrow screens. */
+  :root {
+    --bg: #ebe9e6;
+    --fg: #191714;
+    --muted: #6c645e;
+    --line: #d4d0cb;
+    --accent: #8a6448;
+    --chip: #f6f5f3;
+
+    --phone-body: #1e1d1c;
+    --phone-edge: #4a4744;
+    --phone-chrome: #0d0d0d;
+    --phone-pill: #262524;
+    --phone-ink: #f5f5f5;
+    --phone-ink-dim: #9b9b9b;
+
+    --font-display: "rhymes-display", "rhymes", "Rhymes Display", "Iowan Old Style", Georgia, serif;
+    --font-body: "passenger-sans", "Passenger Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-ui: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141312;
+      --fg: #efebe6;
+      --muted: #9b928b;
+      --line: #2e2b28;
+      --accent: #e2c0a1;
+      --chip: #1d1c1a;
+      --phone-edge: #5a5652;
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #141312;
+    --fg: #efebe6;
+    --muted: #9b928b;
+    --line: #2e2b28;
+    --accent: #e2c0a1;
+    --chip: #1d1c1a;
+    --phone-edge: #5a5652;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .page {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px 72px;
+    min-height: 100vh;
+    padding-block: 40px;
+    padding-inline: 16px;
+  }
+
+  /* ---------------- Phone ---------------- */
+
+  .stage {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  .stage__box {
+    /* Sized by script to the scaled phone so the layout reserves the right space. */
+    position: relative;
+    width: 426px;
+    height: 898px;
+    max-width: 100%;
+  }
+
+  .phone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 426px;
+    height: 898px;
+    padding: 12px;
+    border-radius: 68px;
+    background: var(--phone-body);
+    box-shadow:
+      inset 0 0 0 1.5px var(--phone-edge),
+      inset 0 0 0 5px #0a0a0a,
+      0 30px 60px -20px rgb(0 0 0 / 0.45),
+      0 12px 24px -12px rgb(0 0 0 / 0.35);
+    transform-origin: top left;
+  }
+
+  .screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 402px;
+    height: 874px;
+    overflow: hidden;
+    border-radius: 56px;
+    background: var(--phone-chrome);
+  }
+
+  .statusbar {
+    position: relative;
+    flex: 0 0 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 34px 0 50px;
+    color: var(--phone-ink);
+    font-family: var(--font-ui);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    width: 124px;
+    height: 36px;
+    margin-left: -62px;
+    border-radius: 20px;
+    background: #000;
+  }
+
+  .statusbar__icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .statusbar svg { display: block; fill: var(--phone-ink); }
+
+  .viewport {
+    position: relative;
+    flex: 0 0 728px;
+    background: #000;
+  }
+
+  .viewport iframe {
+    display: block;
+    width: 402px;
+    height: 728px;
+    border: 0;
+  }
+
+  .toolbar {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px 0;
+    color: var(--phone-ink);
+    font-family: var(--font-ui);
+  }
+
+  .toolbar__row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .toolbar__btn,
+  .toolbar__url {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--phone-pill);
+  }
+
+  .toolbar__btn { flex: 0 0 48px; }
+
+  .toolbar__url {
+    flex: 1 1 auto;
+    gap: 8px;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .toolbar__url svg { fill: var(--phone-ink-dim); }
+  .toolbar__btn svg { stroke: var(--phone-ink); }
+
+  .home-indicator {
+    width: 140px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--phone-ink);
+  }
+
+  /* ---------------- Notes ---------------- */
+
+  .notes {
+    flex: 1 1 320px;
+    max-width: 400px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  h1 em { font-style: italic; }
+
+  .lede {
+    margin: 14px 0 0;
+    color: var(--muted);
+  }
+
+  .how {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .how li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+  }
+
+  .how b {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 22px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .btn {
+    appearance: none;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--chip);
+    color: var(--fg);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .btn:hover { border-color: var(--muted); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .caveats {
+    margin: 0;
+    padding: 16px 0 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .caveats p { margin: 0; }
+  .caveats p + p { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<main class="page">
+  <div class="stage">
+    <div class="stage__box" id="stageBox">
+      <div class="phone" id="phone">
+        <div class="screen">
+          <div class="statusbar" aria-hidden="true">
+            <span>9:41</span>
+            <span class="island"></span>
+            <span class="statusbar__icons">
+              <svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="8" width="3.2" height="4" rx="1"/><rect x="5" y="5.5" width="3.2" height="6.5" rx="1"/><rect x="10" y="3" width="3.2" height="9" rx="1"/><rect x="15" y="0" width="3.2" height="12" rx="1"/></svg>
+              <svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 2.3c2.3 0 4.4.9 6 2.4l1.2-1.2A10.2 10.2 0 0 0 8.5.6 10.2 10.2 0 0 0 1.3 3.5l1.2 1.2a8.5 8.5 0 0 1 6-2.4Zm0 3.4c1.4 0 2.6.5 3.6 1.4l1.2-1.2a6.8 6.8 0 0 0-9.6 0l1.2 1.2c1-.9 2.2-1.4 3.6-1.4Zm0 3.4c.5 0 1 .2 1.3.5L8.5 11 7.2 9.6c.3-.3.8-.5 1.3-.5Z"/></svg>
+              <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" style="stroke: var(--phone-ink-dim)"/><rect x="2" y="2" width="20" height="9" rx="2"/><rect x="24.6" y="4.3" width="1.6" height="4.4" rx=".8" style="fill: var(--phone-ink-dim)"/></svg>
+            </span>
+          </div>
+
+          <div class="viewport">
+            <iframe id="site" src="section.html" title="Lavonne ecosystem section, mobile" loading="eager"></iframe>
+          </div>
+
+          <div class="toolbar" aria-hidden="true">
+            <div class="toolbar__row">
+              <span class="toolbar__btn">
+                <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg>
+              </span>
+              <span class="toolbar__url">
+                <svg width="12" height="15" viewBox="0 0 12 15"><path d="M6 0a4 4 0 0 0-4 4v2H1.5C.7 6 0 6.7 0 7.5v6c0 .8.7 1.5 1.5 1.5h9c.8 0 1.5-.7 1.5-1.5v-6c0-.8-.7-1.5-1.5-1.5H10V4a4 4 0 0 0-4-4Zm-2.5 4a2.5 2.5 0 0 1 5 0v2h-5V4Z"/></svg>
+                lavonne.in
+              </span>
+              <span class="toolbar__btn">
+                <svg width="20" height="4" viewBox="0 0 20 4" fill="none" stroke-width="3.4" stroke-linecap="round"><path d="M2 2h0M10 2h0M18 2h0"/></svg>
+              </span>
+            </div>
+            <span class="home-indicator"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="notes" aria-labelledby="notes-title">
+    <div>
+      <p class="eyebrow">Homepage · Mobile</p>
+      <h1 id="notes-title">The Lavonne <em>ecosystem</em></h1>
+      <p class="lede">A regular vertical scroll: the five items stack one after another, with no pinning. The phone is shown at true size: an iPhone 16 Pro with Safari's toolbars leaves a 402 × 728 page area, the same as the Figma frame.</p>
+    </div>
+
+    <ol class="how">
+      <li><b>01</b><span>Scroll inside the phone. Each photo zooms out slightly as you scroll past it.</span></li>
+      <li><b>02</b><span>As each block comes into view, the number and title words rise into place, the label's spacing closes up, and the body fades in from a soft blur.</span></li>
+      <li><b>03</b><span>The thin line under each number draws down as the copy scrolls up.</span></li>
+    </ol>
+
+    <div class="actions">
+      <button class="btn" type="button" id="restart">Back to the start</button>
+      <button class="btn" type="button" id="autoplay">Play it through</button>
+    </div>
+
+    <div class="caveats">
+      <p>This is a work in progress. The brand fonts load from Adobe Fonts, so they only show on domains the kit allows.</p>
+      <p>The Syllabus body copy still needs checking against the live site, and two photos are low-resolution exports.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  (function () {
+    var PHONE_W = 426;
+    var PHONE_H = 898;
+    var phone = document.getElementById("phone");
+    var box = document.getElementById("stageBox");
+    var frame = document.getElementById("site");
+    var playing = null;
+
+    // Scale the phone down only when the window can't fit it at true size.
+    function fit() {
+      var availW = Math.min(document.documentElement.clientWidth - 32, PHONE_W);
+      var availH = window.innerHeight - 48;
+      var s = Math.min(1, availW / PHONE_W, Math.max(availH, 560) / PHONE_H);
+      phone.style.transform = "scale(" + s + ")";
+      box.style.width = PHONE_W * s + "px";
+      box.style.height = PHONE_H * s + "px";
+    }
+
+    function siteWin() {
+      try { return frame.contentWindow; } catch (e) { return null; }
+    }
+
+    function sectionTop() {
+      var w = siteWin();
+      if (!w) return 0;
+      var el = w.document.querySelector("[data-ecosystem]");
+      return el ? el.getBoundingClientRect().top + w.pageYOffset : 0;
+    }
+
+    function stop() {
+      if (playing) cancelAnimationFrame(playing);
+      playing = null;
+      document.getElementById("autoplay").textContent = "Play it through";
+    }
+
+    function restart() {
+      stop();
+      var w = siteWin();
+      if (w) w.scrollTo({ top: sectionTop(), behavior: "auto" });
+    }
+
+    // Scroll the phone through the whole section at a steady reading pace.
+    function play() {
+      if (playing) { stop(); return; }
+      var w = siteWin();
+      if (!w) return;
+      var el = w.document.querySelector("[data-ecosystem]");
+      var start = sectionTop();
+      var end = start + el.offsetHeight - w.innerHeight;
+      var duration = 20000;
+      var t0 = null;
+      w.scrollTo(0, start);
+      document.getElementById("autoplay").textContent = "Stop";
+
+      function tick(t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min((t - t0) / duration, 1);
+        w.scrollTo(0, start + (end - start) * p);
+        if (p < 1) playing = requestAnimationFrame(tick);
+        else stop();
       }
+      playing = requestAnimationFrame(tick);
+    }
 
-      .demo-spacer {
-        display: grid;
-        place-items: center;
-        min-height: 60svh;
-        padding: 24px;
-        font-family: var(--eco-font-sans);
-        font-size: 12px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--eco-muted);
+    function onFrameLoad() {
+      var w = siteWin();
+      if (!w) return;
+      // Always open at the section, not wherever the last visit left off.
+      w.history.scrollRestoration = "manual";
+      restart();
+      ["wheel", "touchstart", "keydown"].forEach(function (type) {
+        w.addEventListener(type, stop, { passive: true });
+      });
+    }
+
+    frame.addEventListener("load", onFrameLoad);
+    // The frame can finish loading before this script runs.
+    try {
+      if (frame.contentDocument && frame.contentDocument.readyState === "complete" &&
+          frame.contentWindow.location.href !== "about:blank") {
+        onFrameLoad();
       }
-    </style>
-  </head>
-  <body>
-    <div class="demo-spacer">Previous section · scroll down</div>
+    } catch (e) {}
 
-    <section class="eco" data-ecosystem aria-label="The Lavonne ecosystem">
-      <article class="eco-item">
-        <figure class="eco-item__media">
-          <img src="assets/images/facility.jpg" alt="A chef spooning praline crumble into tart rings on a baking mat" width="402" height="453" />
-        </figure>
-        <div class="eco-item__text">
-          <div class="eco-item__index" aria-hidden="true">
-            <span class="eco-item__num"><span>01</span></span>
-            <span class="eco-item__line"></span>
-          </div>
-          <div class="eco-item__copy">
-            <div class="eco-item__heading-group">
-              <p class="eco-item__eyebrow">Facility</p>
-              <h3 class="eco-item__title">Built like a <em>working kitchen</em></h3>
-            </div>
-            <p class="eco-item__body">Production grade equipment. Industry standard stations</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="eco-item">
-        <figure class="eco-item__media">
-          <img src="assets/images/classroom.jpg" alt="A chef demonstrating at a stand mixer while students look on" width="402" height="453" loading="lazy" />
-        </figure>
-        <div class="eco-item__text">
-          <div class="eco-item__index" aria-hidden="true">
-            <span class="eco-item__num"><span>02</span></span>
-            <span class="eco-item__line"></span>
-          </div>
-          <div class="eco-item__copy">
-            <div class="eco-item__heading-group">
-              <p class="eco-item__eyebrow">Syllabus</p>
-              <h3 class="eco-item__title">A syllabus that <em>keeps moving.</em></h3>
-            </div>
-            <!-- TODO: check this line against the live site — it was pieced together from search results, not copied. -->
-            <p class="eco-item__body">Every cohort learns something the last one didn't. This year's masterclasses become next year's curriculum.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="eco-item">
-        <figure class="eco-item__media">
-          <img src="assets/images/immersion.jpg" alt="Two students laughing at a pastry station" width="804" height="906" loading="lazy" />
-        </figure>
-        <div class="eco-item__text">
-          <div class="eco-item__index" aria-hidden="true">
-            <span class="eco-item__num"><span>03</span></span>
-            <span class="eco-item__line"></span>
-          </div>
-          <div class="eco-item__copy">
-            <div class="eco-item__heading-group">
-              <p class="eco-item__eyebrow">Immersion</p>
-              <h3 class="eco-item__title">Practice on <em>real customers.</em></h3>
-            </div>
-            <p class="eco-item__body">Six weeks rotating through the cafe, the production kitchen, and the pastry counter. Your work goes out the door.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="eco-item">
-        <figure class="eco-item__media">
-          <img src="assets/images/pastry.jpg" alt="Tweezers placing a gold Lavonne chocolate plaque on a sugared doughnut" width="804" height="906" loading="lazy" />
-        </figure>
-        <div class="eco-item__text">
-          <div class="eco-item__index" aria-hidden="true">
-            <span class="eco-item__num"><span>04</span></span>
-            <span class="eco-item__line"></span>
-          </div>
-          <div class="eco-item__copy">
-            <div class="eco-item__heading-group">
-              <p class="eco-item__eyebrow">Certification</p>
-              <h3 class="eco-item__title">Internationally <em>certified.</em></h3>
-            </div>
-            <p class="eco-item__body">City &amp; Guilds, London. The only baking academy in India with this recognition. Plus ISO accreditation and a Forbes-listed founder.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="eco-item">
-        <figure class="eco-item__media">
-          <img src="assets/images/visiting-chefs.jpg" alt="A visiting chef whisking meringue during a masterclass" width="804" height="906" loading="lazy" />
-        </figure>
-        <div class="eco-item__text">
-          <div class="eco-item__index" aria-hidden="true">
-            <span class="eco-item__num"><span>05</span></span>
-            <span class="eco-item__line"></span>
-          </div>
-          <div class="eco-item__copy">
-            <div class="eco-item__heading-group">
-              <p class="eco-item__eyebrow">Visiting chefs</p>
-              <h3 class="eco-item__title">World-class chefs <em>in the room.</em></h3>
-            </div>
-            <p class="eco-item__body">Antonio Bachour, every two years. Other international chefs throughout the year. Masterclasses become curriculum.</p>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <div class="demo-spacer">Next section</div>
-
-    <script src="js/ecosystem.js"></script>
-  </body>
+    // Reload the page in the phone so the text reveals play again.
+    document.getElementById("restart").addEventListener("click", function () {
+      stop();
+      var w = siteWin();
+      if (w) w.location.reload();
+    });
+    document.getElementById("autoplay").addEventListener("click", play);
+    window.addEventListener("resize", fit);
+    fit();
+  })();
+</script>
+</body>
 </html>
