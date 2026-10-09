@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Lavonne ecosystem — mobile
+   Figma: "Numbers on the left (same interaction as current site)" (4507:1713)
+   ========================================================================== */
+
+/* Brand fonts. Passenger Sans and Rhymes Display are licensed fonts — drop the
+   web font files into assets/fonts/ with these names (see README). */
+@font-face {
+  font-family: "Passenger Sans";
+  src: local("Passenger Sans Regular"), local("PassengerSans-Regular"),
+    url("../assets/fonts/PassengerSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rhymes Display";
+  src: local("Rhymes Display Regular"), local("RhymesDisplay-Regular"),
+    url("../assets/fonts/RhymesDisplay-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rhymes Display";
+  src: local("Rhymes Display Italic"), local("RhymesDisplay-Italic"),
+    url("../assets/fonts/RhymesDisplay-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --eco-bg: #000;
+  --eco-text: #fff;
+  --eco-eyebrow: #e2c0a1;
+  --eco-muted: #8a7b75;
+
+  --eco-font-sans: "Passenger Sans", "Helvetica Neue", Arial, sans-serif;
+  --eco-font-display: "Rhymes Display", Georgia, "Times New Roman", serif;
+  --eco-font-numbers: "Inter", system-ui, sans-serif;
+
+  /* Height of any fixed site header the panel should pin beneath. */
+  --eco-top: 0px;
+  /* Scroll distance spent on each slide while the panel is pinned. */
+  --eco-step: 100svh;
+  /* Text area under the image: 728 (frame) − 453 (image) in the design. */
+  --eco-content-h: 275px;
+  --eco-fade: 500ms;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll track + pinned panel
+   -------------------------------------------------------------------------- */
+
+.eco {
+  position: relative;
+  /* One viewport for the pinned panel plus one step per slide. */
+  height: calc(100svh - var(--eco-top) + var(--eco-count, 5) * var(--eco-step));
+  background: var(--eco-bg);
+  color: var(--eco-text);
+}
+
+.eco__panel {
+  position: sticky;
+  top: var(--eco-top);
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - var(--eco-top));
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Image
+   -------------------------------------------------------------------------- */
+
+.eco__media {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.eco__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--eco-fade) ease;
+}
+
+.eco__img.is-active {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Content: numbers column (left) + slide copy (right)
+   Design: numbers centred at x=45, copy at x=90 → 275px wide, 38px under image.
+   -------------------------------------------------------------------------- */
+
+.eco__content {
+  flex: 0 0 var(--eco-content-h);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 275px);
+  column-gap: 36px;
+  align-items: start;
+  padding: 37px 37px 0 36px;
+}
+
+/* Numbers -------------------------------------------------------------- */
+
+.eco__steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.eco__num {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--eco-font-numbers);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--eco-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--eco-fade) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Extend the tap target without moving the layout. */
+.eco__num {
+  position: relative;
+}
+
+.eco__num::after {
+  content: "";
+  position: absolute;
+  inset: -6px -14px;
+}
+
+.eco__num.is-reached {
+  color: var(--eco-text);
+}
+
+.eco__num:focus-visible {
+  outline: 1px solid var(--eco-eyebrow);
+  outline-offset: 3px;
+}
+
+/* 0.5px × 16px connector between numbers; fills top → bottom with scroll. */
+.eco__connector {
+  position: relative;
+  width: 0.5px;
+  height: 16px;
+  background: var(--eco-muted);
+}
+
+.eco__connector-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--eco-text);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* Copy ------------------------------------------------------------------ */
+
+.eco__slides {
+  display: grid;
+  margin-top: 1px; /* copy sits 1px below the numbers in the design */
+}
+
+.eco__slide {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--eco-fade) ease, transform var(--eco-fade) ease;
+  pointer-events: none;
+}
+
+.eco__slide.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.eco__heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eco__eyebrow {
+  margin: 0;
+  font-family: var(--eco-font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--eco-eyebrow);
+}
+
+.eco__title {
+  max-width: 226px;
+  margin: 0;
+  font-family: var(--eco-font-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--eco-text);
+}
+
+.eco__title em {
+  font-style: italic;
+}
+
+.eco__body {
+  margin: 0;
+  font-family: var(--eco-font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--eco-text);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: keep the scroll-driven stepping, drop the fades.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .eco__img,
+  .eco__slide,
+  .eco__num {
+    transition: none;
+  }
+
+  .eco__slide {
+    transform: none;
+  }
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>The Lavonne ecosystem — mobile</title>
+    <link rel="preload" href="assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="css/ecosystem.css" />
+    <style>
+      /* Demo page only — stands in for the sections around the ecosystem block. */
+      html,
+      body {
+        margin: 0;
+        background: #000;
+      }
+
+      .demo-spacer {
+        display: grid;
+        place-items: center;
+        min-height: 60svh;
+        padding: 24px;
+        font-family: var(--eco-font-sans);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--eco-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-spacer">Previous section · scroll down</div>
+
+    <section class="eco" data-ecosystem style="--eco-count: 5" aria-label="The Lavonne ecosystem">
+      <div class="eco__panel">
+        <div class="eco__media">
+          <img class="eco__img is-active" src="assets/images/facility.jpg" alt="A chef spooning praline crumble into tart rings on a baking mat" width="402" height="453" />
+          <img class="eco__img" src="assets/images/syllabus.jpg" alt="" width="804" height="906" loading="lazy" />
+          <img class="eco__img" src="assets/images/immersion.jpg" alt="" width="804" height="906" loading="lazy" />
+          <img class="eco__img" src="assets/images/certification.jpg" alt="" width="804" height="906" loading="lazy" />
+          <img class="eco__img" src="assets/images/visiting-chefs.jpg" alt="" width="804" height="906" loading="lazy" />
+        </div>
+
+        <div class="eco__content">
+          <nav class="eco__steps" aria-label="Ecosystem sections">
+            <button class="eco__num is-reached" type="button" aria-current="step" aria-label="Facility">01</button>
+            <span class="eco__connector" aria-hidden="true"><span class="eco__connector-fill"></span></span>
+            <button class="eco__num" type="button" aria-label="Syllabus">02</button>
+            <span class="eco__connector" aria-hidden="true"><span class="eco__connector-fill"></span></span>
+            <button class="eco__num" type="button" aria-label="Immersion">03</button>
+            <span class="eco__connector" aria-hidden="true"><span class="eco__connector-fill"></span></span>
+            <button class="eco__num" type="button" aria-label="Certification">04</button>
+            <span class="eco__connector" aria-hidden="true"><span class="eco__connector-fill"></span></span>
+            <button class="eco__num" type="button" aria-label="Visiting chefs">05</button>
+          </nav>
+
+          <div class="eco__slides" aria-live="polite">
+            <article class="eco__slide is-active" aria-hidden="false">
+              <div class="eco__heading-group">
+                <p class="eco__eyebrow">Facility</p>
+                <h3 class="eco__title">Built like a <em>working kitchen</em></h3>
+              </div>
+              <p class="eco__body">Production grade equipment. Industry standard stations</p>
+            </article>
+
+            <!-- TODO: Syllabus copy wasn't available in the Figma file — replace with the live-site copy. -->
+            <article class="eco__slide" aria-hidden="true">
+              <div class="eco__heading-group">
+                <p class="eco__eyebrow">Syllabus</p>
+                <h3 class="eco__title">Syllabus <em>headline</em></h3>
+              </div>
+              <p class="eco__body">Syllabus description goes here.</p>
+            </article>
+
+            <article class="eco__slide" aria-hidden="true">
+              <div class="eco__heading-group">
+                <p class="eco__eyebrow">Immersion</p>
+                <h3 class="eco__title">Practice on <em>real customers.</em></h3>
+              </div>
+              <p class="eco__body">Six weeks rotating through the cafe, the production kitchen, and the pastry counter. Your work goes out the door.</p>
+            </article>
+
+            <article class="eco__slide" aria-hidden="true">
+              <div class="eco__heading-group">
+                <p class="eco__eyebrow">Certification</p>
+                <h3 class="eco__title">Internationally <em>certified.</em></h3>
+              </div>
+              <p class="eco__body">City &amp; Guilds, London. The only baking academy in India with this recognition. Plus ISO accreditation and a Forbes-listed founder.</p>
+            </article>
+
+            <article class="eco__slide" aria-hidden="true">
+              <div class="eco__heading-group">
+                <p class="eco__eyebrow">Visiting chefs</p>
+                <h3 class="eco__title">World-class chefs <em>in the room.</em></h3>
+              </div>
+              <p class="eco__body">Antonio Bachour, every two years. Other international chefs throughout the year. Masterclasses become curriculum.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="demo-spacer">Next section</div>
+
+    <script src="js/ecosystem.js"></script>
+  </body>
+</html>
