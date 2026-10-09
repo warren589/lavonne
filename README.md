@@ -42,17 +42,17 @@ The bare section, without the phone, is `section.html`. Open it on a phone, or i
 
 ## Content
 
-The copy comes from the "Lavonne ecosystem" section on the live site: Facility, Syllabus, Immersion, Certification and Visiting chefs. The images follow the order in the Figma frame.
+The heading, copy and photo order match the "The Lavonne Ecosystem" section on the live site. The heading isn't in the Figma frame; delete the `<h2>` in `section.html` to drop it. Titles follow the Figma styling, with the second half of each title set in italic.
 
 | # | Image |
 | --- | --- |
-| 01 Facility | `facility.jpg` (tart rings) |
+| 01 Facility | `kitchen.jpg` (teaching kitchen) |
 | 02 Syllabus | `classroom.jpg` (chef at the stand mixer) |
 | 03 Immersion | `immersion.jpg` |
 | 04 Certification | `pastry.jpg` (doughnut with chocolate plaque) |
 | 05 Visiting chefs | `visiting-chefs.jpg` |
 
-`kitchen.jpg` is a spare image that isn't used here.
+`facility.jpg` (tart rings, from the Figma frame) is a spare image that isn't used here.
 
 ## Still needed
 
@@ -61,5 +61,4 @@ The copy comes from the "Lavonne ecosystem" section on the live site: Facility, 
    - The kit's CSS couldn't be read from the build environment, so the family names are a best guess. The stacks in `css/ecosystem.css` (`--eco-font-sans`, `--eco-font-display`) try `passenger-sans`, then `rhymes-display` and `rhymes`. If the kit uses other names, put them at the front of those stacks. The kit's "Web project" page in Adobe Fonts lists the exact names.
 
    Inter, which the numbers use, is still served locally from `assets/fonts/`.
-2. **Syllabus body copy.** The headline, "A syllabus that keeps moving.", matches the live site. The body line was pieced together from search results because the live site couldn't be reached from the build environment. Check it against the site; search `TODO` in `section.html`.
-3. **Image resolution.** `facility.jpg` and `classroom.jpg` are 1× exports (402 × 453) from Figma. Replace them with the original photos so they look sharp on retina screens, especially while zoomed.
+2. **Image resolution.** `classroom.jpg` is a 1× export (402 × 453) from Figma. Replace it with the original photo so it looks sharp on retina screens, especially while zoomed.

@@ -75,6 +75,9 @@
       item.text.style.setProperty("--eco-words", words);
     });
 
+    var heading = root.querySelector(".eco__heading");
+    if (heading) splitWords(heading, 0);
+
     root.classList.add("is-enhanced");
 
     if ("IntersectionObserver" in window) {
@@ -88,6 +91,7 @@
         },
         { rootMargin: "0px 0px -12% 0px", threshold: 0.15 }
       );
+      if (heading) revealer.observe(heading);
       items.forEach(function (item) {
         revealer.observe(item.text);
       });
@@ -111,6 +115,7 @@
         watcher.observe(item.text);
       });
     } else {
+      if (heading) heading.classList.add("is-in");
       items.forEach(function (item) {
         item.text.classList.add("is-in");
       });

@@ -46,6 +46,18 @@
   color: var(--eco-text);
 }
 
+/* Section heading — from the live site; not in the Figma frame. */
+.eco__heading {
+  margin: 0;
+  padding: 48px 37px 40px;
+  font-family: var(--eco-font-display);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--eco-text);
+}
+
 .eco-item {
   margin: 0;
 }
