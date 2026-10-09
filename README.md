@@ -35,9 +35,7 @@ This works the same way as the current mobile site. The only change is that the 
 | `--eco-content-h` | `275px` | Height of the text area under the image (728 − 453 in the design) |
 | `--eco-fade` | `500ms` | Length of the crossfade |
 
-## Still needed
+## Notes
 
 1. **Brand fonts.** Passenger Sans and Rhymes Display load from the Adobe Fonts kit `rtp1ffx`. The CSS asks for the families `passenger-sans` and `rhymes-display`; if the kit's web project uses different CSS names, update `--eco-font-sans` and `--eco-font-display` in `css/ecosystem.css`. The kit only serves fonts to domains listed in its web project, so add the deployment domain (and `localhost` for local work). Inter, which the numbers use, is self-hosted under the SIL Open Font License.
-2. **Slide images 02–05.** Only the Facility image is in the design frame. `syllabus.jpg`, `immersion.jpg`, `certification.jpg` and `visiting-chefs.jpg` are placeholders: other Lavonne photos taken from the Figma file. Swap in the photos the live site uses.
-3. **Syllabus copy.** This text isn't in the Figma file. Search `TODO` in `section.html`.
-4. **Facility image resolution.** `facility.jpg` is a 1× export (402 × 453). Replace it with the original `BI6A6642` photo so it looks sharp on retina screens.
+2. **Content** matches the ecosystem section on lavonne.in. Facility, Immersion, Certification and Visiting chefs use the original photos from the Figma file. The Syllabus photo is cropped from a screenshot of the live site, so it's slightly softer; swap in the original file when you have it.

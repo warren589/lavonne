@@ -84,7 +84,9 @@
    -------------------------------------------------------------------------- */
 
 .eco__content {
-  flex: 0 0 var(--eco-content-h);
+  /* Design height, but grows (and the image shrinks) if the copy runs longer. */
+  flex: 0 0 auto;
+  min-height: var(--eco-content-h);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 18px minmax(0, 275px);
