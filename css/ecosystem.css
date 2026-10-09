@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Lavonne ecosystem — mobile
-   Figma: "Numbers on the left (same interaction as current site)" (4507:1713)
+   Lavonne ecosystem — mobile, regular scroll
+   Figma: "regular scroll" (4507:1692)
    ========================================================================== */
 
 /* Brand fonts. Passenger Sans and Rhymes Display are licensed fonts — drop the
@@ -50,169 +50,106 @@
   --eco-font-display: "Rhymes Display", Georgia, "Times New Roman", serif;
   --eco-font-numbers: "Inter", system-ui, sans-serif;
 
-  /* Height of any fixed site header the panel should pin beneath. */
-  --eco-top: 0px;
-  /* Scroll distance spent on each slide while the panel is pinned. */
-  --eco-step: 100svh;
-  /* Text area under the image: 728 (frame) − 453 (image) in the design. */
-  --eco-content-h: 275px;
-  --eco-fade: 500ms;
+  /* Image scale when it enters the bottom of the viewport. It settles to 1 by
+     the time it has scrolled out of the top. Read by js/ecosystem.js. */
+  --eco-zoom-from: 1.14;
+
+  /* Text reveal. */
+  --eco-ease: cubic-bezier(0.19, 1, 0.22, 1); /* expo-out */
+  --eco-reveal: 1100ms;
+  --eco-stagger: 70ms;
 }
 
 /* --------------------------------------------------------------------------
-   Scroll track + pinned panel
+   Layout: image (402 × 453) then a 255px text block, repeated.
+   Design: copy block at x=37, 48px under the image, 48px above the next one.
    -------------------------------------------------------------------------- */
 
 .eco {
-  position: relative;
-  /* One viewport for the pinned panel plus one step per slide. */
-  height: calc(100svh - var(--eco-top) + var(--eco-count, 5) * var(--eco-step));
   background: var(--eco-bg);
   color: var(--eco-text);
 }
 
-.eco__panel {
-  position: sticky;
-  top: var(--eco-top);
-  display: flex;
-  flex-direction: column;
-  height: calc(100svh - var(--eco-top));
-  overflow: hidden;
+.eco-item {
+  margin: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Image
-   -------------------------------------------------------------------------- */
-
-.eco__media {
+.eco-item__media {
   position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
+  margin: 0;
+  aspect-ratio: 402 / 453;
   overflow: hidden;
+  background: #111;
 }
 
-.eco__img {
-  position: absolute;
-  inset: 0;
+.eco-item__media img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--eco-fade) ease;
+  transform: scale(var(--eco-zoom, 1));
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
-.eco__img.is-active {
-  opacity: 1;
-}
-
-/* --------------------------------------------------------------------------
-   Content: numbers column (left) + slide copy (right)
-   Design: numbers centred at x=45, copy at x=90 → 275px wide, 38px under image.
-   -------------------------------------------------------------------------- */
-
-.eco__content {
-  flex: 0 0 var(--eco-content-h);
+.eco-item__text {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 18px minmax(0, 275px);
-  column-gap: 36px;
-  align-items: start;
-  padding: 37px 37px 0 36px;
+  grid-template-columns: 18px minmax(0, 286px);
+  column-gap: 24px;
+  padding: 48px 37px;
 }
 
-/* Numbers -------------------------------------------------------------- */
+/* Number + rule ---------------------------------------------------------- */
 
-.eco__steps {
+.eco-item__index {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 }
 
-.eco__num {
-  appearance: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
+.eco-item__num {
+  display: block;
+  overflow: hidden;
   font-family: var(--eco-font-numbers);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.1;
   color: var(--eco-muted);
   white-space: nowrap;
-  cursor: pointer;
-  transition: color var(--eco-fade) ease;
-  -webkit-tap-highlight-color: transparent;
 }
 
-/* Extend the tap target without moving the layout. */
-.eco__num {
-  position: relative;
+.eco-item__num > span {
+  display: block;
 }
 
-.eco__num::after {
-  content: "";
-  position: absolute;
-  inset: -6px -14px;
-}
-
-.eco__num.is-reached {
-  color: var(--eco-text);
-}
-
-.eco__num:focus-visible {
-  outline: 1px solid var(--eco-eyebrow);
-  outline-offset: 3px;
-}
-
-/* 0.5px × 16px connector between numbers; fills top → bottom with scroll. */
-.eco__connector {
-  position: relative;
+/* 0.5px rule that runs down to the bottom of the copy. It draws in with
+   scroll (--eco-line is set by js/ecosystem.js). */
+.eco-item__line {
+  flex: 1 1 auto;
   width: 0.5px;
-  height: 16px;
   background: var(--eco-muted);
-}
-
-.eco__connector-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--eco-text);
-  transform: scaleY(0);
+  transform: scaleY(var(--eco-line, 1));
   transform-origin: top;
 }
 
-/* Copy ------------------------------------------------------------------ */
+/* Copy ------------------------------------------------------------------- */
 
-.eco__slides {
-  display: grid;
-  margin-top: 1px; /* copy sits 1px below the numbers in the design */
-}
-
-.eco__slide {
-  grid-area: 1 / 1;
+.eco-item__copy {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity var(--eco-fade) ease, transform var(--eco-fade) ease;
-  pointer-events: none;
 }
 
-.eco__slide.is-active {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-}
-
-.eco__heading-group {
+.eco-item__heading-group {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.eco__eyebrow {
+.eco-item__eyebrow {
+  max-width: 274px;
   margin: 0;
   font-family: var(--eco-font-sans);
   font-size: 12px;
@@ -222,7 +159,7 @@
   color: var(--eco-eyebrow);
 }
 
-.eco__title {
+.eco-item__title {
   max-width: 226px;
   margin: 0;
   font-family: var(--eco-font-display);
@@ -233,11 +170,12 @@
   color: var(--eco-text);
 }
 
-.eco__title em {
+.eco-item__title em {
   font-style: italic;
 }
 
-.eco__body {
+.eco-item__body {
+  max-width: 274px;
   margin: 0;
   font-family: var(--eco-font-sans);
   font-size: 16px;
@@ -247,17 +185,89 @@
 }
 
 /* --------------------------------------------------------------------------
-   Reduced motion: keep the scroll-driven stepping, drop the fades.
+   Text reveal. js/ecosystem.js adds .is-enhanced to the section, splits each
+   title into masked words and adds .is-in when a text block scrolls into
+   view. Without JS everything is simply visible.
+   -------------------------------------------------------------------------- */
+
+/* Masked word: the outer span clips, the inner span rises into it. The
+   padding/negative margin gives italic overhang and descenders room. */
+.eco-word {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.06em 0.08em 0.14em;
+  margin: -0.06em -0.08em -0.14em;
+  vertical-align: top;
+}
+
+.eco-word > span {
+  display: inline-block;
+}
+
+.eco.is-enhanced .eco-item__num > span,
+.eco.is-enhanced .eco-word > span {
+  transform: translateY(110%);
+  transition: transform var(--eco-reveal) var(--eco-ease);
+  transition-delay: calc(var(--i, 0) * var(--eco-stagger));
+}
+
+.eco.is-enhanced .eco-item__line {
+  transform: scaleY(var(--eco-line, 0));
+}
+
+.eco.is-enhanced .eco-item__eyebrow {
+  opacity: 0;
+  letter-spacing: 0.32em;
+  transition: opacity 900ms ease, letter-spacing 1400ms var(--eco-ease);
+}
+
+.eco.is-enhanced .eco-item__body {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+  transition: opacity 1000ms ease, transform var(--eco-reveal) var(--eco-ease),
+    filter 1000ms ease;
+  transition-delay: calc(var(--eco-words, 3) * var(--eco-stagger) + 260ms);
+}
+
+.eco.is-enhanced .is-in .eco-item__num > span,
+.eco.is-enhanced .is-in .eco-word > span {
+  transform: none;
+}
+
+.eco.is-enhanced .is-in .eco-item__eyebrow {
+  opacity: 1;
+  letter-spacing: 0;
+}
+
+.eco.is-enhanced .is-in .eco-item__body {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: no zoom, no reveal — everything shows in its final state.
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .eco__img,
-  .eco__slide,
-  .eco__num {
-    transition: none;
+  .eco-item__media img {
+    transform: none;
   }
 
-  .eco__slide {
+  .eco-item__line,
+  .eco.is-enhanced .eco-item__line {
     transform: none;
+  }
+
+  .eco.is-enhanced .eco-item__num > span,
+  .eco.is-enhanced .eco-word > span,
+  .eco.is-enhanced .eco-item__eyebrow,
+  .eco.is-enhanced .eco-item__body {
+    opacity: 1;
+    letter-spacing: 0;
+    transform: none;
+    filter: none;
+    transition: none;
   }
 }
