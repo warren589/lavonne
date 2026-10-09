@@ -3,7 +3,7 @@
 Mobile build of the Figma frame **"Numbers on the left (same interaction as current site)"**
 (`Lavonne-Website-Int`, node `4507:1713`, in the *Lavonne Ecosystem Mobile versions* section).
 
-Open `index.html` on a phone, or in a browser's device mode at about 402 × 728, and scroll. To show it to others, use `preview.html`: it runs the section at true size inside an iPhone 16 Pro frame. Serve the folder over HTTP (for example `npx serve .`), because the Back to the start and Play it through buttons don't work when the file is opened directly from disk.
+The site's root page (`index.html`) shows the section running at true size inside an iPhone 16 Pro frame, so people can see the real proportions. To see the section without the frame, open `section.html` on a phone, or in a browser's device mode at about 402 × 728. If you're running it locally, serve the folder over HTTP (for example `npx serve .`), because the Back to the start and Play it through buttons don't work when the file is opened directly from disk.
 
 ## Interaction
 
@@ -19,7 +19,8 @@ This works the same way as the current mobile site. The only change is that the 
 
 | Path | What |
 | --- | --- |
-| `index.html` | The section markup, with spacer blocks above and below so you can test the scroll |
+| `index.html` | The phone-frame preview, which loads `section.html` inside the phone |
+| `section.html` | The section markup, with spacer blocks above and below so you can test the scroll |
 | `css/ecosystem.css` | Styles and design tokens (colours, fonts, sizes) |
 | `js/ecosystem.js` | The scroll-driven stepping. It needs no dependencies and starts up on any `[data-ecosystem]` element |
 | `assets/images/` | Slide images |
@@ -43,5 +44,5 @@ This works the same way as the current mobile site. The only change is that the 
 
    Until those files are there, the page falls back to Helvetica/Arial and Georgia. Inter, which the numbers use, is already included under the SIL Open Font License.
 2. **Slide images 02–05.** Only the Facility image is in the design frame. `syllabus.jpg`, `immersion.jpg`, `certification.jpg` and `visiting-chefs.jpg` are placeholders: other Lavonne photos taken from the Figma file. Swap in the photos the live site uses.
-3. **Syllabus copy.** This text isn't in the Figma file. Search `TODO` in `index.html`.
+3. **Syllabus copy.** This text isn't in the Figma file. Search `TODO` in `section.html`.
 4. **Facility image resolution.** `facility.jpg` is a 1× export (402 × 453). Replace it with the original `BI6A6642` photo so it looks sharp on retina screens.
