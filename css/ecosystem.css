@@ -3,35 +3,8 @@
    Figma: "Numbers on the left (same interaction as current site)" (4507:1713)
    ========================================================================== */
 
-/* Brand fonts. Passenger Sans and Rhymes Display are licensed fonts — drop the
-   web font files into assets/fonts/ with these names (see README). */
-@font-face {
-  font-family: "Passenger Sans";
-  src: local("Passenger Sans Regular"), local("PassengerSans-Regular"),
-    url("../assets/fonts/PassengerSans-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Rhymes Display";
-  src: local("Rhymes Display Regular"), local("RhymesDisplay-Regular"),
-    url("../assets/fonts/RhymesDisplay-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Rhymes Display";
-  src: local("Rhymes Display Italic"), local("RhymesDisplay-Italic"),
-    url("../assets/fonts/RhymesDisplay-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
+/* Brand fonts (Passenger Sans, Rhymes Display) come from the Adobe Fonts kit
+   linked in section.html: https://use.typekit.net/rtp1ffx.css */
 @font-face {
   font-family: "Inter";
   src: url("../assets/fonts/Inter-Regular.woff2") format("woff2");
@@ -46,8 +19,8 @@
   --eco-eyebrow: #e2c0a1;
   --eco-muted: #8a7b75;
 
-  --eco-font-sans: "Passenger Sans", "Helvetica Neue", Arial, sans-serif;
-  --eco-font-display: "Rhymes Display", Georgia, "Times New Roman", serif;
+  --eco-font-sans: "passenger-sans", "Passenger Sans", "Helvetica Neue", Arial, sans-serif;
+  --eco-font-display: "rhymes-display", "Rhymes Display", Georgia, "Times New Roman", serif;
   --eco-font-numbers: "Inter", system-ui, sans-serif;
 
   /* Height of any fixed site header the panel should pin beneath. */
